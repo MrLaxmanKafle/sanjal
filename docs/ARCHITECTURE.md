@@ -15,18 +15,28 @@ Every decision below follows from that split.
 ## Where things live now
 
 ```
-app/            routes; server components by default
-components/     UI. Only DeadlineVault and WaitlistForm are client components
-lib/            data and domain logic, with no React in it
-lib/guides.ts   guide content + the review/provenance model
-lib/cities.ts   city hub content
-lib/documents.ts        deadline maths and calendar generation — pure functions
-lib/documentStore.ts    the browser-storage layer, isolated behind a store API
+packages/core/src/
+  documents.ts    deadline maths, urgency, ordering, calendar generation
+  vault.ts        the vault's rules, with storage left as a port
+  guides.ts       guide content + the review/provenance model
+  cities.ts       city hub content
+  site.ts         brand facts
+  index.ts        the public surface
+packages/core/test/   the engine's tests — no UI, no browser, no simulator
+
+apps/web/         Next.js. lib/vault.ts is the localStorage adapter (~30 lines)
+apps/mobile/      Expo. src/storage.ts is the device adapter (~30 lines)
 ```
 
-`lib/` holds no framework code beyond types. When the UI layer is eventually
-replaced, the deadline logic, the guide model and the content move across
-untouched. That is the point of the boundary.
+The boundary is enforced, not merely intended: `packages/core/tsconfig.json`
+sets `"lib": ["ES2022"]` and `"types": []`, so touching `window`, `document`,
+`process`, or any React Native API is a compile error rather than a bug that
+surfaces on one platform months later. That single line of config is what keeps
+"shared core" true over time.
+
+It is also why `buildCalendar` computes UTF-8 byte lengths by hand instead of
+using `TextEncoder`: the encoder is not guaranteed on React Native, and the
+alternative was a fold that quietly corrupted Devanagari on one platform only.
 
 ## Decisions, and why
 
@@ -42,11 +52,11 @@ isolates storage behind `subscribe`/`getSnapshot`/`save`, so if opt-in sync is
 added later it swaps in behind the same interface with the local path intact for
 people who decline.
 
-**`useSyncExternalStore`, not `useState` + `useEffect`.** Reading browser storage
-into state inside an effect causes cascading renders (the React Compiler lint
-rejects it). The store shape also gives cross-tab sync for free via the `storage`
-event, and caches its snapshot against the raw string so repeated reads return a
-stable reference.
+**`useSyncExternalStore`, not `useState` + `useEffect`.** Reading storage into
+component state inside an effect causes cascading renders (the React Compiler
+lint rejects it outright). Both clients subscribe to the same core vault
+instead, which is also what makes cross-tab sync on web a four-line host
+concern rather than a shared-code one.
 
 **Reminders as a calendar file, not notifications.** An `.ics` download needs no
 account, no push service, no server, and no permission prompt — and it lands in
