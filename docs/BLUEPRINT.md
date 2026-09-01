@@ -234,8 +234,10 @@ durable things and renting the volatile things**:
 
 1. **Beachhead:** confirm Australia/US/UK-first (recommended) vs. Gulf-first.
 2. **Name/brand:** revive "Sanjal" on sanjal.com, or a fresh brand?
-3. **Separation:** this must live in its own repository and company — it is
-   unrelated to Himalaya Cannabis Pvt. Ltd. and mixing brands/repos hurts both.
+3. **Company:** ~~separation from unrelated ventures~~ — settled: this is its
+   own repository. Still open is which legal entity owns it, and where that
+   entity is registered, which matters once directory or ticketing revenue
+   starts arriving from several countries.
 4. **Seed cities:** pick the 5 where the team personally knows organizers.
 5. **Budget/time:** who builds (hours/week), and the ~$50–100/mo infra line.
 
