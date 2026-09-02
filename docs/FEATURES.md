@@ -22,7 +22,8 @@ The reason someone opens the app alone on a Tuesday night.
 | **Built** | Calendar export (`.ics`) with a reminder a week before, so reminders work with no account and no push service |
 | **Built** | Everything stored on-device; nothing transmitted |
 | **Built** | Cross-tab sync on web |
-| **Next** | Add/edit form on mobile (the list already renders) |
+| **Built** | Shared validation — both platforms reject the same input with the same wording |
+| **Built** | Add-document form on mobile, validating through the same core rules as the web form |
 | **Next** | Real device storage on mobile, replacing the in-memory placeholder |
 | **Later** | Link a deadline to its guide — "renew this" opens the right procedure |
 | **Later** | Household view: track a spouse's and children's documents |

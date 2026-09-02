@@ -93,16 +93,27 @@ rather than an accident — the attack surface is one form.
 - **Secrets live in the environment**, never in the repo. `.env.example`
   documents the names only.
 
+- **Security response headers are set** in `apps/web/next.config.ts`:
+  Content-Security-Policy, HSTS (two years, preloadable), `X-Content-Type-Options`,
+  `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`,
+  a `Permissions-Policy` denying camera, microphone and geolocation, and
+  `poweredByHeader: false`. `connect-src 'self'` means a script that did get in
+  could not exfiltrate to another origin.
+
 ### Known gaps, stated plainly
 
-- **No security response headers yet.** `apps/web/next.config.ts` sets none.
-  Content-Security-Policy, HSTS, `X-Content-Type-Options`, `Referrer-Policy` and
-  `Permissions-Policy` should be added before any real traffic. This is the
-  cheapest outstanding item on the list.
+- **The CSP still allows `'unsafe-inline'` for scripts.** Next injects inline
+  bootstrap scripts, and removing them needs nonces, which force dynamic
+  rendering. That trade is acceptable only while the site renders no
+  user-generated content. **When city hubs start accepting listings, events or
+  messages, move to a nonce-based CSP and drop `'unsafe-inline'`** — stored XSS
+  in a directory people act on is not worth a build-time convenience.
 - **The waitlist rate limit is per-instance and in memory.** It resets on deploy
   and does not coordinate across regions. Adequate for a waitlist, not for
   anything authenticated.
 - **No automated dependency scanning.** Turn on Dependabot.
+- **No `/.well-known/security.txt`** yet, and the security contact is a shared
+  address rather than a monitored inbox.
 
 ## Required before accounts ship
 

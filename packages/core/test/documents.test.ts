@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   buildCalendar,
+  createDocument,
   daysUntil,
   describeCountdown,
   sortByUrgency,
   startByDate,
   urgencyOf,
+  validateDraft,
   type TrackedDocument,
 } from "../src/documents.ts";
 import { createVault, parseDocuments } from "../src/vault.ts";
@@ -105,4 +107,24 @@ test("subscribers are notified on change and stop after unsubscribing", async ()
   unsubscribe();
   await vault.add(doc({ id: "b" }));
   assert.equal(calls, 1);
+});
+
+test("a draft is rejected for the same reason on every platform", () => {
+  const base = { label: "My passport", type: "passport" as const, expiry: "2027-04-30" };
+  assert.equal(validateDraft(base), null);
+  assert.equal(validateDraft({ ...base, label: "   " })?.field, "label");
+  assert.equal(validateDraft({ ...base, expiry: "" })?.field, "expiry");
+  assert.equal(validateDraft({ ...base, expiry: "30/04/2027" })?.field, "expiry");
+  // 2027 is not a leap year, so this day does not exist.
+  assert.equal(validateDraft({ ...base, expiry: "2027-02-29" })?.field, "expiry");
+  assert.equal(validateDraft({ ...base, expiry: "2027-13-01" })?.field, "expiry");
+});
+
+test("creating a document trims input and drops an empty note", () => {
+  const doc = createDocument(
+    { label: "  My passport  ", type: "passport", expiry: "2027-04-30", note: "   " },
+    "id-1",
+  );
+  assert.equal(doc.label, "My passport");
+  assert.equal(doc.note, undefined);
 });

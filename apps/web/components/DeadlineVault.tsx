@@ -9,12 +9,14 @@ import {
   type VaultState,
   URGENCY_COPY,
   buildCalendar,
+  createDocument,
   daysUntil,
   describeCountdown,
   documentTypeMeta,
   formatDate,
   sortByUrgency,
   startByDate,
+  validateDraft,
   urgencyOf,
 } from "@sanjal/core";
 
@@ -55,17 +57,14 @@ export default function DeadlineVault() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const trimmed = label.trim();
-    if (!trimmed) {
-      setError("Give the document a name you will recognise, like “My passport”.");
-      return;
-    }
-    if (!expiry) {
-      setError("Add the expiry date printed on the document.");
+    const draft = { label, type, expiry, note };
+    const problem = validateDraft(draft);
+    if (problem) {
+      setError(problem.message);
       return;
     }
     setError(null);
-    void vault.add({ id: newId(), label: trimmed, type, expiry, note: note.trim() || undefined });
+    void vault.add(createDocument(draft, newId()));
     setLabel("");
     setNote("");
     setExpiry("");

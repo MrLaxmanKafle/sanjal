@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import {
   createVault,
@@ -12,11 +12,11 @@ import {
   startByDate,
   urgencyOf,
   URGENCY_COPY,
-  type TrackedDocument,
   type Urgency,
   type VaultState,
 } from "@sanjal/core";
 import { deviceStorage } from "./src/storage";
+import { AddDocument } from "./src/AddDocument";
 
 /**
  * The mobile client.
@@ -40,32 +40,16 @@ const URGENCY_COLOUR: Record<Urgency, string> = {
   planned: "#2a6e4c",
 };
 
-// A stand-in until the add-document form is built, so the list has something to
-// render while the shared logic is being checked on a device.
-const SAMPLE: TrackedDocument[] = [
-  { id: "sample-passport", label: "My passport", type: "passport", expiry: "2026-12-30" },
-  { id: "sample-visa", label: "Student visa", type: "visa", expiry: "2027-10-06" },
-];
-
 export default function App() {
   const state = useSyncExternalStore(vault.subscribe, vault.getState, getServerState);
-  const [seeded, setSeeded] = useState(false);
-
   useEffect(() => {
     void vault.hydrate();
   }, []);
 
-  useEffect(() => {
-    if (state.hydrated && state.documents.length === 0 && !seeded) {
-      setSeeded(true);
-      void vault.replaceAll(SAMPLE);
-    }
-  }, [state.hydrated, state.documents.length, seeded]);
-
   const documents = useMemo(() => sortByUrgency(state.documents), [state.documents]);
 
   return (
-    <View style={styles.screen}>
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <StatusBar style="auto" />
       <Text style={styles.wordmark}>{site.nameNepali}</Text>
       <Text style={styles.title}>Document deadlines</Text>
@@ -73,8 +57,11 @@ export default function App() {
         Stored on this device. The same rules the website uses.
       </Text>
 
+      <AddDocument onAdd={(document) => void vault.add(document)} />
+
       <FlatList
         style={styles.list}
+        scrollEnabled={false}
         data={documents}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -117,16 +104,17 @@ export default function App() {
           This device is not saving changes. Your list will not survive a restart.
         </Text>
       ) : null}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: "#f6f5f1", paddingTop: 72, paddingHorizontal: 20 },
+  screen: { flex: 1, backgroundColor: "#f6f5f1" },
+  content: { paddingTop: 72, paddingHorizontal: 20, paddingBottom: 48 },
   wordmark: { color: "#2f4fa2", fontSize: 15, fontWeight: "600", marginBottom: 6 },
   title: { color: "#131a26", fontSize: 28, fontWeight: "700" },
   subtitle: { color: "#5c6373", fontSize: 15, marginTop: 6, marginBottom: 20 },
-  list: { flex: 1 },
+  list: { marginTop: 20 },
   separator: { height: 12 },
   card: {
     flexDirection: "row",

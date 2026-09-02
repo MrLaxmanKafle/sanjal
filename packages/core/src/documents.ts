@@ -208,3 +208,53 @@ export function sortByUrgency(
     return byUrgency !== 0 ? byUrgency : a.expiry.localeCompare(b.expiry);
   });
 }
+
+export type DocumentDraft = {
+  label: string;
+  type: DocumentType;
+  /** Expected as yyyy-mm-dd. */
+  expiry: string;
+  note?: string;
+};
+
+export type DraftError = { field: "label" | "expiry"; message: string };
+
+/**
+ * Validation lives here, not in either form, so that web and mobile reject the
+ * same input for the same reason and in the same words. A person who hits an
+ * error on their phone and then tries the website should not get a different
+ * story.
+ */
+export function validateDraft(draft: DocumentDraft): DraftError | null {
+  if (!draft.label.trim()) {
+    return { field: "label", message: "Give the document a name you will recognise." };
+  }
+  if (!draft.expiry.trim()) {
+    return { field: "expiry", message: "Add the expiry date printed on the document." };
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.expiry)) {
+    return { field: "expiry", message: "Write the date as YYYY-MM-DD, for example 2027-04-30." };
+  }
+
+  // Date accepts overflow (2027-02-31 becomes 3 March), so round-trip it to
+  // catch days that do not exist in that month.
+  const parsed = new Date(`${draft.expiry}T00:00:00`);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== draft.expiry) {
+    return { field: "expiry", message: "That date does not exist. Check the day and month." };
+  }
+  if (parsed.getFullYear() > 2100) {
+    return { field: "expiry", message: "Check the year — that looks like a typo." };
+  }
+  return null;
+}
+
+/** Builds the stored record from a validated draft, trimming as it goes. */
+export function createDocument(draft: DocumentDraft, id: string): TrackedDocument {
+  return {
+    id,
+    label: draft.label.trim(),
+    type: draft.type,
+    expiry: draft.expiry,
+    note: draft.note?.trim() || undefined,
+  };
+}

@@ -26,8 +26,9 @@ engineer.
    the single highest-value thing a human can do on this codebase.
 4. **Finish mobile storage.** Three lines in `apps/mobile/src/storage.ts`, plus
    `npx expo install @react-native-async-storage/async-storage`.
-5. **Build the mobile add-document form.** The web form exists; the phone shows
-   a seeded list. All the rules are already shared — this is presentation only.
+5. ~~**Build the mobile add-document form.**~~ Done — it validates through the
+   same core rules as the web form. Remaining polish: a native date picker,
+   which needs `expo install` to choose the SDK-matching version.
 
 **Move on when:** both apps run against the same core, the guides are verified,
 and you can hand your phone to someone and have them add their passport.
