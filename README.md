@@ -4,6 +4,9 @@ A mobile-first app for Nepalis, starting in Kathmandu. The first release is a
 daily-use screen people open every morning; communities and services come
 once there is a habit to build on.
 
+Contributors (human or AI): read [`CLAUDE.md`](CLAUDE.md) and
+[`docs/DECISIONS.md`](docs/DECISIONS.md) first.
+
 The previous diaspora-focused codebase is preserved on the
 `archive/diaspora-v1` branch.
 
