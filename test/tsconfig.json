@@ -6,7 +6,8 @@
     ]
   },
   "include": [
-    "*.ts"
+    "*.ts",
+    "db/*.ts"
   ],
   "exclude": []
 }
