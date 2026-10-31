@@ -72,3 +72,7 @@ src/lib/          data: Nepali date, NRB forex, RSS, phone numbers, Supabase, ch
 supabase/         config and SQL migrations (schema, row-level security, auth hooks)
 test/             node:test tests; test/db/ runs against a local Supabase
 ```
+
+## License
+
+[MIT](LICENSE) © 2026 Laxman Kafle. Built by [Laxman Kafle](https://laxmankafle.com).
