@@ -24,3 +24,22 @@ jobs:
         run: npx expo export --platform android --output-dir /tmp/export
         env:
           EXPO_OFFLINE: 1
+
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.0
+      - name: Start local Supabase with this branch's migrations
+        run: supabase start -x studio,imgproxy,storage-api,edge-runtime,logflare,vector,supavisor,postgres-meta,mailpit
+      - name: Run database tests
+        run: |
+          export SUPABASE_ANON_KEY=$(supabase status -o json | jq -r .ANON_KEY)
+          npm run test:db

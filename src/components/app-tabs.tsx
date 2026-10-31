@@ -22,6 +22,11 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Icon sf="newspaper" md="newspaper" />
       </NativeTabs.Trigger>
 
+      <NativeTabs.Trigger name="chat">
+        <NativeTabs.Trigger.Label>Chat</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="bubble.left.and.bubble.right" md="chat" />
+      </NativeTabs.Trigger>
+
       <NativeTabs.Trigger name="kathmandu">
         <NativeTabs.Trigger.Label>Kathmandu</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="person.3" md="groups" />
