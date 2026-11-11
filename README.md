@@ -72,3 +72,9 @@ src/lib/          data: Nepali date, NRB forex, RSS, phone numbers, Supabase, ch
 supabase/         config and SQL migrations (schema, row-level security, auth hooks)
 test/             node:test tests; test/db/ runs against a local Supabase
 ```
+
+## Website
+
+`site/` is the static landing page served at https://sanjal.com by Cloudflare
+Pages (project root `site`, no build command). Edit `site/index.html` and
+merge to `main` to publish.

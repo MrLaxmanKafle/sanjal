@@ -2,6 +2,15 @@
 
 Newest first. Each entry: what we decided, why, and what would change it.
 
+## 2026-11-11 — sanjal.com is a static landing page on Cloudflare Pages
+
+The domain's nameservers already point to Cloudflare, so the site is hosted on
+Cloudflare Pages (free tier) from the `site/` folder: plain HTML, no build
+step, no JavaScript. It says what Sanjal is and that the app is coming; it
+does not run the Expo web build, because the app is mobile-first and its
+Today and News data come from sites that block browser requests (CORS).
+Revisit when the web version of the app is on the roadmap.
+
 ## 2026-10-30 — Supabase for backend, +977 phone login
 
 Supabase (Postgres, Auth, Realtime, Edge Functions) runs accounts, chat and

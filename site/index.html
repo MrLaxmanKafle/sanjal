@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ne">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>सञ्जाल · Sanjal</title>
+<meta name="description" content="सञ्जाल: नेपालीहरूको दैनिक एप, काठमाडौंबाट सुरु। Sanjal is a daily-use app for Nepalis, starting in Kathmandu.">
+<meta property="og:title" content="सञ्जाल · Sanjal">
+<meta property="og:description" content="नेपालीहरूको दैनिक एप, काठमाडौंबाट सुरु। A daily-use app for Nepalis, starting in Kathmandu.">
+<meta property="og:image" content="https://sanjal.com/icon.png">
+<meta property="og:url" content="https://sanjal.com/">
+<meta name="theme-color" content="#C8102E">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #F0F0F3;
+    --text: #000000;
+    --muted: #60646C;
+    --accent: #C8102E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000000;
+      --surface: #212225;
+      --text: #ffffff;
+      --muted: #B0B4BA;
+      --accent: #FF5A6E;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans Devanagari", "Noto Sans", sans-serif;
+    line-height: 1.55;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 48px 16px 32px; }
+  header { display: flex; align-items: center; gap: 14px; }
+  header img { width: 56px; height: 56px; border-radius: 14px; }
+  h1 { margin: 0; font-size: 2rem; line-height: 1.1; }
+  h1 span { display: block; font-size: 1rem; font-weight: 500; color: var(--muted); }
+  .lead { font-size: 1.25rem; margin: 32px 0 4px; }
+  .en { color: var(--muted); margin: 0; }
+  .status {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  ul { list-style: none; padding: 0; margin: 36px 0; display: grid; gap: 12px; }
+  li { background: var(--surface); border-radius: 14px; padding: 16px; }
+  li strong { display: block; font-size: 1.05rem; }
+  li p { margin: 2px 0 0; }
+  h2 { font-size: 1.1rem; margin: 36px 0 8px; }
+  footer { color: var(--muted); font-size: 0.9rem; margin-top: 40px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icon.png" alt="" width="56" height="56">
+    <h1>सञ्जाल <span>Sanjal</span></h1>
+  </header>
+
+  <p class="lead">नेपालीहरूको दैनिक एप, काठमाडौंबाट सुरु।</p>
+  <p class="en">A daily-use app for Nepalis, starting in Kathmandu.</p>
+  <span class="status">छिट्टै आउँदैछ · Coming soon</span>
+
+  <ul>
+    <li>
+      <strong>आज · Today</strong>
+      <p>बिक्रम संवत् मिति र नेपाल राष्ट्र बैंकको विनिमय दर।</p>
+      <p class="en">Bikram Sambat date and Nepal Rastra Bank exchange rates.</p>
+    </li>
+    <li>
+      <strong>समाचार · News</strong>
+      <p>ताजा शीर्षकहरू, प्रकाशककै साइटमा पढ्नुहोस्।</p>
+      <p class="en">Latest headlines, read on the publisher's own site.</p>
+    </li>
+    <li>
+      <strong>कुराकानी · Chat</strong>
+      <p>+977 मोबाइल नम्बरबाट साइन इन गरी कुराकानी।</p>
+      <p class="en">Sign in with a +977 mobile number and chat.</p>
+    </li>
+    <li>
+      <strong>काठमाडौं · Kathmandu</strong>
+      <p>सहरका समूह र कार्यक्रमहरू, पछि आउँदैछ।</p>
+      <p class="en">City groups and events, coming later.</p>
+    </li>
+  </ul>
+
+  <h2>हाम्रो वाचा · Our promise</h2>
+  <p>एक व्यक्ति, एक प्रमाणित नेपाली नम्बर। हामी तपाईंको व्यक्तिगत जानकारी, नम्बर वा सन्देश कहिल्यै बेच्दैनौं।</p>
+  <p class="en">One verified Nepali number per person. We never sell your personal data, phone number or messages.</p>
+
+  <footer>© सञ्जाल · Sanjal · sanjal.com</footer>
+</main>
+</body>
+</html>
