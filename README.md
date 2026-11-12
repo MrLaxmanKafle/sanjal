@@ -8,7 +8,12 @@ from them later.
 
 ## Website
 
-`site/` is the coming soon page at https://sanjal.com, hosted on Cloudflare
-Pages (root directory `site`, no build command, output directory `public`).
-`site/functions/api/waitlist.js` saves waitlist emails to a KV namespace
-bound as `WAITLIST`. Merging to `main` publishes the site.
+`site/` is the coming soon page at https://sanjal.com. It runs as one
+Cloudflare Worker named `sanjal-site`, with a KV namespace `sanjal-waitlist`
+bound as `WAITLIST` for waitlist emails.
+
+- Edit `site/public/index.html` (the page) or
+  `site/functions/api/waitlist.js` (saving emails).
+- Run `python3 site/build-worker.py` to rebuild `site/worker.js`.
+- Deploy `site/worker.js` to the `sanjal-site` Worker. This is manual for
+  now; merging to `main` does not publish.
